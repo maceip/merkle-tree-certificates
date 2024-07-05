@@ -4,6 +4,7 @@ Merkle Tree Certificates for TLS*
 
 🚨 Merkle Tree Certificates (**MTC**) is a moving target <br>
 🚨 this is a fork of https://github.com/bwesterb/mtc/ to add ens support
+🌐 free the web
 
 Implementation of [Merkle Tree Certificates for TLS](
     https://davidben.github.io/merkle-tree-certs/draft-davidben-tls-merkle-tree-certs.html)
