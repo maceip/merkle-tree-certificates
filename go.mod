@@ -9,6 +9,7 @@ require (
 
 require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
+	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/nightlyone/lockfile v1.0.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/urfave/cli/v2 v2.27.1 // indirect
@@ -17,4 +18,5 @@ require (
 	golang.org/x/mod v0.14.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/tools v0.17.0 // indirect
+	tideland.dev/go/wait v0.2.0 // indirect
 )

@@ -38,6 +38,7 @@ type ClaimType uint16
 const (
 	DnsClaimType ClaimType = iota
 	DnsWildcardClaimType
+	EnsClaimType
 	Ipv4ClaimType
 	Ipv6ClaimType
 )
@@ -46,6 +47,7 @@ const (
 type Claims struct {
 	DNS         []string
 	DNSWildcard []string
+        ENS	    []string
 	IPv4        []net.IP
 	IPv6        []net.IP
 	Unknown     []UnknownClaim
@@ -1219,6 +1221,9 @@ func (c Claims) String() string {
 			bits = append(bits, "*."+domain)
 		}
 	}
+	if len(c.ENS) != 0 {
+		bits = append(bits, c.ENS...)
+	}
 	if len(c.IPv4) != 0 {
 		for _, ip := range c.IPv4 {
 			bits = append(bits, ip.String())
@@ -1318,7 +1323,7 @@ func (c *Claims) UnmarshalBinary(data []byte) error {
 		}
 
 		switch claimType {
-		case DnsClaimType, DnsWildcardClaimType:
+		case DnsClaimType, DnsWildcardClaimType, EnsClaimType:
 			var (
 				packed  cryptobyte.String
 				domains []string
@@ -1355,8 +1360,10 @@ func (c *Claims) UnmarshalBinary(data []byte) error {
 
 			if claimType == DnsClaimType {
 				c.DNS = domains
-			} else {
+			} else  if claimType == DnsClaimType {
 				c.DNSWildcard = domains
+			} else { 
+				c.ENS = domains
 			}
 
 		case Ipv4ClaimType, Ipv6ClaimType:
@@ -1450,6 +1457,9 @@ func (c *Claims) MarshalBinary() ([]byte, error) {
 		return nil, err
 	}
 	if err := marshalDomains(c.DNSWildcard, DnsWildcardClaimType); err != nil {
+		return nil, err
+	}
+	if err := marshalDomains(c.ENS, EnsClaimType); err != nil {
 		return nil, err
 	}
 

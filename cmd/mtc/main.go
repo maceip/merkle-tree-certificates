@@ -60,6 +60,11 @@ func assertionFlags(inFile bool) []cli.Flag {
 			Category: "Assertion",
 		},
 		&cli.StringSliceFlag{
+			Name:     "ens",
+			Aliases:  []string{"e"},
+			Category: "Assertion",
+		},
+		&cli.StringSliceFlag{
 			Name:     "ip4",
 			Category: "Assertion",
 		},
@@ -145,6 +150,7 @@ func assertionFromFlagsUnchecked(cc *cli.Context) (*ca.QueuedAssertion, error) {
 		for _, flag := range []string{
 			"dns",
 			"dns-wildcard",
+			"ens",
 			"ip4",
 			"ip6",
 			"tls-der",
@@ -179,6 +185,7 @@ func assertionFromFlagsUnchecked(cc *cli.Context) (*ca.QueuedAssertion, error) {
 		DNSWildcard: cc.StringSlice("dns-wildcard"),
 	}
 
+        cs.ENS = cc.StringSlice("ens")
 	for _, ip := range cc.StringSlice("ip4") {
 		cs.IPv4 = append(cs.IPv4, net.ParseIP(ip))
 	}
@@ -375,6 +382,9 @@ func handleCaShowQueue(cc *cli.Context) error {
 		if len(cs.DNS) != 0 {
 			fmt.Fprintf(w, "dns\t%s\n", cs.DNS)
 		}
+		if len(cs.ENS) != 0 {
+			fmt.Fprintf(w, "ens\t%s\n", cs.ENS)
+		}
 		if len(cs.DNSWildcard) != 0 {
 			fmt.Fprintf(w, "dns_wildcard\t%s\n", cs.DNSWildcard)
 		}
@@ -562,6 +572,9 @@ func writeAssertion(w *tabwriter.Writer, a mtc.Assertion) {
 	if len(cs.DNSWildcard) != 0 {
 		fmt.Fprintf(w, "dns_wildcard\t%s\n", cs.DNSWildcard)
 	}
+	if len(cs.ENS) != 0 {
+		fmt.Fprintf(w, "ens\t%s\n", cs.ENS)
+	}
 	if len(cs.IPv4) != 0 {
 		fmt.Fprintf(w, "ip4\t%s\n", cs.IPv4)
 	}
@@ -688,6 +701,9 @@ func handleInspectAbridgedAssertions(cc *cli.Context) error {
 			}
 			if len(cs.DNS) != 0 {
 				fmt.Fprintf(w, "dns\t%s\n", cs.DNS)
+			}
+			if len(cs.ENS) != 0 {
+				fmt.Fprintf(w, "ens\t%s\n", cs.ENS)
 			}
 			if len(cs.DNSWildcard) != 0 {
 				fmt.Fprintf(w, "dns_wildcard\t%s\n", cs.DNSWildcard)
