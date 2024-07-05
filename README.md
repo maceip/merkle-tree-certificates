@@ -3,7 +3,7 @@ Merkle Tree Certificates for TLS*
 **Forked to build out an Ethereum Name Service integration for use in TEE networks like tlsnotary.org*
 
 🚨 Merkle Tree Certificates (**MTC**) is a moving target <br>
-🚨 this is a fork of https://github.com/bwesterb/mtc/ to add ens support
+🚨 this is a fork of https://github.com/bwesterb/mtc/ to add ens support <br>
 🌐 free the web
 
 Implementation of [Merkle Tree Certificates for TLS](
